@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+
+{% block content %}
+
+{% if request.user == profile.user %}
+
+<a href="{% url 'accounts:profile_update' user.id %}">Update profile</a>
+<a href="{% url 'accounts:password_change' user.id %}">Change Password</a>
+{%endif%}
+
+<img src="{{profile.img.url}}" style="align-self:left;">
+<p style="align-self:left ;">{{profile.user.username}}</p>
+{% if request.user == profile.user %}
+
+<h1>Your articles</h1>
+{%else%}
+<h1>{{profile.user.username}} articles</h1>
+{%endif%}
+
+<ul>
+{% for article in profile.user.article_set.all %}
+    <a href="{{article.get_absolute_url}}"><li style="font-size:larger;padding-left: 20px;display:grid;">{{article.title}}</li></a>
+{%endfor%}
+</ul>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+
+
+{% block content %}
+    {% if articles %}
+        {{articles.count}} results found 
+        {%for article in articles%}
+        <a href="{{article.get_absolute_url}}">
+            <h1>{{article}}</h1></a>
+        <p>{{article.content}}</p>
+        {%endfor%}
+    {%else%}
+        <p>No results please enter a valid search</p>
+        
+    {%endif%}
+{% endblock content %}

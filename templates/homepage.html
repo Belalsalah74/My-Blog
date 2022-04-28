@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+
+<h1>Welcome {{user}}</h1>
+
+{%else%}
+
+<h1>Welcome</h1>
+
+{%endif%}
+
+<h2>Latest articles</h2>
+<hr>
+
+{%for article in articles%}
+<a href="{{article.get_absolute_url}}"><p style="font-size: x-large;margin-left: 15px;">{{article.title}}</p></a>
+
+    <p style=" font-family:monospace;margin-left: 30px;">{{article.content|truncatechars:50}}..</p>
+    
+
+{%endfor%}
+
+{% endblock content %}

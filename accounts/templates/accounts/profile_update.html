@@ -1,0 +1,19 @@
+{%extends 'base.html'%}
+
+{% load crispy_forms_tags %}
+{% block content%}
+
+
+{% if request.user == user or request.user.is_staff %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {%csrf_token%}
+        {{user_form|crispy}}
+        {{profile_form|crispy}}
+
+        <button type="submit" >Update</button>    
+    </form>
+{% else %}
+<h1>Permission denied</h1>
+{%endif%}
+{% endblock content%}
+

@@ -1,0 +1,73 @@
+{%extends 'base.html'%}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+    <h3 > {{article.title}} by <a style="text-shadow: 0 0 0 #4203fd, 0 0 3px #0000FF" href="{% url 'accounts:profile' article.user.id %}">{{article.user}}</a></h3>
+    {{article.created}}
+    {{article.updated}}
+    <img src="{{article.user.profile.img.url}}" style="max-width: 90px;max-height: 90px;float: left;">
+    
+    
+    <div style="width: 500px;height: 150px;margin-left: 100px; background-color: rgb(238, 230, 253); border: 3px solid black;">
+    <p style="font-size: larger;margin: 5px; color: black;">{{article.content|safe}}</p>
+    </div>
+    {% if article.category.all.exists %}
+        <p>Categories</p>
+        {% for cat in article.category.all %}
+            {{cat.name}}
+        {%endfor%}
+    {%endif%}
+    <br><br>
+    
+    {% if request.user.is_authenticated %}
+        {% if liked %}
+            <form method="post" action="" style="display:inline;">{%csrf_token%}
+                <button name="Like" class="like" type="submit" value="{{request.user.id}}">Unlike</button>
+            </form>
+            
+            {% else %}
+                    <form style="display:inline;" method="post" action="" >{%csrf_token%}
+                <button type="submit" class="like"  name="Like"  value="{{request.user.id}}">Like</button>
+            </form>
+            {%endif%}
+        {%else%}
+        <button style="display:inline;"><a  href="{% url 'accounts:login'%}?next={{request.path}}">Login</a></button> to like.
+    {%endif%}
+    
+    
+    {% if article.likes.exists %}
+        {{article.likes.last }} 
+        {% if article.likes.count > 1 %} 
+        and {{article.likes.count|add:'-1'}} others {%endif%} liked this.
+    
+    {%endif%}
+    <br><br><hr>
+    {% if comments.exists %}
+        <p>Comments</p>
+        {% for comment in comments %}
+            <img style="max-height: 30px ;max-width: 30px; border-radius: 50%;margin-bottom: -5px;" src="{{comment.user.profile.img.url}}"> 
+            <p style="display: inline-block; font-size: large;">{{comment.user|capfirst}}: </p>
+            <p style="padding-left: 5px;display:inline-flex;margin-bottom: -5px;">{{comment.content}}</p>
+            {% if request.user == comment.user %}
+                <a style="font-size:smaller; color: rgb(145, 145, 228);"href="{% url 'articles:delete_comment' comment.id %}">Delete</a>
+            {%endif%}
+            <br>
+        
+        {%endfor%}
+    {%endif%}
+
+    <form action="" method="post" >{%csrf_token%}
+        {{comment_form|crispy}}
+        <button name="comment"  type="submit">Add comment</button>
+    </form>
+    <br>
+<a href="{% url 'articles:list_view' %}" > All articles</a>
+{% if request.user == article.user or request.user.is_staff %}
+<a href="{% url 'articles:update_article' article.slug %}">Update</a>
+<a href="{% url 'articles:delete_article' article.slug %}">Delete</a>
+{%endif%}
+
+{% endblock content %}

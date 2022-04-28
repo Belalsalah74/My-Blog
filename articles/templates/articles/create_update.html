@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+{% block content %}
+{% load crispy_forms_tags %}
+{% if request.user.is_authenticated %}
+
+
+    <form action="", method="Post"> {%csrf_token%}
+        {{form|crispy}}
+        {{c_form|crispy}}
+ 
+        <input type="submit">
+    </form>
+  
+{%endif%}
+
+{% endblock content %}
