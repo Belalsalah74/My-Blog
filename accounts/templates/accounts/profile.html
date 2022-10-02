@@ -8,8 +8,8 @@
 <a href="{% url 'accounts:password_change' user.id %}">Change Password</a>
 {%endif%}
 
-<img src="{{profile.img.url}}" style="align-self:left;">
-<p style="align-self:left ;">{{profile.user.username}}</p>
+<img src="{{profile.img.url}}">
+<p>{{profile.user.username}}</p>
 {% if request.user == profile.user %}
 
 <h1>Your articles</h1>

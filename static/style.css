@@ -1,106 +1,75 @@
+img {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+}
 
-      .paginator{
-        font-size: small;
-        text-indent: 10px;
-        padding: 3px;
-        margin: 3px;
-      }
+.comment-image {
+  max-height: 30px;
+  max-width: 30px;
+  border-radius: 50%;
+  margin-bottom: -5px;
+}
 
-    .like:hover{
-      background-color: rgb(238, 238, 247);
-      color: rgb(7, 11, 96);
-      border: #09092e 2px solid;
-      border-radius: 20%;
-    }
-    
-    .like{
-      background-color: rgb(30, 30, 231);
-      color: white;
-      border: #28282a 1px solid;
-      border-radius: 20%;
-    }
-
-      img{
-        width: 125px;
-        height: 125px;
-        border-radius: 50%;
-      }
+.comment {
+  display: inline-block;
+  font-size: large;
+}
 
 
-    .nav {
-        color: aliceblue;
-        font-size: larger;
-        padding: 10px 10px 5px 5px;
-        font-style: normal;
-      }
+a {
+  color: aliceblue;
+  font-size: larger;
+  text-decoration: none;
+}
 
-      a {
-        color: aliceblue;
-        font-size: larger;
-        text-decoration: none;
-      }
+a:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 248, 248);
+  /* font-size: x-large; */
+}
 
-      a:hover {
-        color: rgb(0, 0, 0);
-        background-color: rgb(255, 248, 248);
-        /* font-size: x-large; */
-      }
+.navb {
+  background-color: rgba(47, 57, 79, 0.359);
+  padding: 10px 10px 0px 10px;
+  width: max;
+  height: 50px;
+  border-bottom: 2px solid;
 
-      button > a{
-        color: rgb(31, 29, 62);
-      }
-      
-      button > a:hover{
-        color: black;
-        background-color: rgb(255, 248, 248);
-      }
-      
-      button:hover{
-        color: black;
-        cursor: grab;
-        
-        
-      }
+}
 
-      .navb{
-          background-color: rgba(47, 57, 79, 0.359);
-          lighting-color: antiquewhite;
-          width: max;
-          height: 50px;
-          border-bottom: 2px solid;
-          /* align-items: center; */
-          text-align: center;
-          /* margin-inline: 0%; */
-      }
-      button{
-        color: black;
-        font-size: medium;
-        
-      }
-      
+.nave {
+  padding: .5%;
+}
 
-      body {
-        padding: 0%;
-        /* margin-block: 0; */
-        /* margin-inline: 0; */
-        background-color:#28282a;
-        color: white;
-        font-size: medium;
-        font-family: Arial, Helvetica, sans-serif;
-        align-items: center;
-        align-content: center;
-        align-self: center;
-        /* text-align: center; */
-      }
+.search-bar {
+  float: right;
+}
 
-      .child {
-          margin-left:20px;
-          object-position: center;
-      }
 
-      .h {
-          padding-right:10px;
-          font-size: x-large;
-      }
+body {
+  background-color: #28282a;
+  color: rgb(218, 204, 204);
+  font-size: medium;
+  font-family: Arial, Helvetica, sans-serif;
 
-      
+
+}
+
+
+.h {
+  padding-right: 10px;
+  font-size: x-large;
+}
+
+.content {
+  color: #28282a;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  margin-left: 100px;
+  border: 2px solid black;
+  border-radius: 5%;
+  background-color: rgb(198, 199, 211);
+
+}

@@ -1,5 +1,3 @@
-
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,11 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = 'z0h!b833-@9o1rd2i=c@k-rqbn&26khnbr7fl614nerr01#76d'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
 
-# DEBUG = True
+DEBUG = True
 
 # ALLOWED_HOSTS = ['192.168.1.101','192.168.1.100']
 
@@ -22,7 +19,6 @@ LOGIN_URL = '/login/'
 # Application definition
 
 INSTALLED_APPS = [
-    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,13 +40,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myblog.urls'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'myblog/templates',BASE_DIR / 'templates'],
-        # 'DIRS': [os.path.join(BASE_DIR,'myblog/templates')],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'myblog/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +109,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 STATIC_URL = '/static/'
-STATICFILES_DIRS =[ BASE_DIR / 'static/']
+STATICFILES_DIRS = [BASE_DIR / 'static/']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

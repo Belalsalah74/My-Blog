@@ -3,7 +3,7 @@
 
 {% block content %}
     <h1>Article</h1>    
-        <a style="font-size:larger;float:right;margin-right: 60px;" href="{% url 'articles:create_article' %}">Create an article</a>
+        <a  href="{% url 'articles:article-create' %}">Create an article</a>
 
         <ul>
     {% for article in page_obj %}
@@ -12,7 +12,7 @@
     {% endfor %}
     </ul><br><br>
 
-    <div class="paginator">
+    <div>
     {% if page_obj.has_previous %}
     <a href="?page=1">First</a>
     <a href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a>

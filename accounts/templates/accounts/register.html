@@ -1,12 +1,12 @@
 {%extends 'base.html'%}
 
-{% load crispy_forms_tags %}
+
 {% block content%}
 {% if not user.is_authenticated %}
 <form method="POST", action="" enctype="multipart/form-data">
     {%csrf_token%}
-    {{form|crispy}}
-    {{profile_form|crispy}}
+    {{form}}
+    {{profile_form}}
     {% if request.GET.next %}
         <input type="hidden" name="next" value="{{request.GET.next}}">
         {%endif%}

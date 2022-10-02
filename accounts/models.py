@@ -44,29 +44,11 @@ def resize_img(sender,instance,created,*args, **kwargs):
        img.save(instance.img.path)
     #    instance.save()
 
-# @receiver(post_save,sender=User)
-# def create_profile(sender,instance,created,*args, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#         instance.profile.save()
-
-
-
-# @receiver(post_save,sender=User)
-# def profile(sender,instance,*args, **kwargs):
-#     Profile.objects.get_or_create(user=instance)
-#     instance.profile.save()
-
-
-
-# @receiver(post_save,sender=User)
-# def profile(sender,instance,*args, **kwargs):
-#     try :Profile.objects.get(user=instance)
-
-#     except Profile.DoesNotExist:
-#         Profile.objects.create(user=instance)
-#         instance.profile.save()
-
+@receiver(post_save,sender=User)
+def create_profile(sender,instance,created,*args, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        instance.profile.save()
 
 
 

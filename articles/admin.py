@@ -19,4 +19,4 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ['user','title']
     fields = ['title','slug','content','user','category','likes']
     list_select_related = ['user']
-   
+    
