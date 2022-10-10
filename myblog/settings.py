@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'z0h!b833-@9o1rd2i=c@k-rqbn&26khnbr7fl614nerr01#76d'
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','myblog-production-c4f3.up.railway.app']
 
