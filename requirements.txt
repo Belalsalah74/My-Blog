@@ -4,6 +4,6 @@ Django
 django-dotenv
 gunicorn
 Pillow
-psycopg2
+psycopg2-binary
 sqlparse
 tzdata
