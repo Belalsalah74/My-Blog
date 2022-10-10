@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'z0h!b833-@9o1rd2i=c@k-rqbn&26khnbr7fl614nerr01#76d'
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ['192.168.1.101','192.168.1.100']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','myblog-production-c4f3.up.railway.app']
 
 LOGIN_URL = '/login/'
 # Application definition
@@ -110,6 +110,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static/']
+STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
