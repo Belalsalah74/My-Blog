@@ -1,0 +1,15 @@
+{%extends 'base.html'%} {% block title %} Articles in {{category.name}} Category
+{% endblock title %} {% block content %}
+<div class="container">
+  <div class="row">
+    <h1 class="display-5 my-3">Articles in {{category.name}}</h1>
+    <div class="p-3 col-sm-6">
+      {% for article in qs %}
+       {% include 'article_preview.html' %}
+       
+      {%endfor%}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

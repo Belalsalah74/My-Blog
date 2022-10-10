@@ -1,26 +1,33 @@
-{%extends 'base.html'%}
+{%extends 'base.html'%} {% block content %}
+<div class="container">
+  <div class="row my-3">
+    <div class="col-sm-9">
+      {% if user.is_authenticated %}
 
-{% block content %}
+      <h2 class="h4 mb-3">
+        Welcome <span class="text-primary">{{user.username}}</span>
+      </h2>
 
-{% if request.user.is_authenticated %}
+      {%else%}
 
-<h1>Welcome {{user}}</h1>
+      <h2 class="h4">Welcome</h2>
 
-{%else%}
+      {%endif%}
 
-<h1>Welcome</h1>
+      <h1 class="display-4">Latest articles</h1>
+      
+      {%for article in articles %}
 
-{%endif%}
+          {% include 'article_preview.html' %}
+      
+      {%endfor%}
 
-<h2>Latest articles</h2>
-<hr>
+       <a class="link-primary" href="{% url 'articles:article-list' %}">
+       View more <i class="fa-regular fa-circle-right"></i> </a
+      >
 
-{%for article in articles%}
-<a href="{{article.get_absolute_url}}"><p style="font-size: x-large;margin-left: 15px;">{{article.title}}</p></a>
 
-    <p style=" font-family:monospace;margin-left: 30px;">{{article.content|truncatechars:50}}..</p>
-    
-
-{%endfor%}
-
+    </div>
+  </div>
+</div>
 {% endblock content %}

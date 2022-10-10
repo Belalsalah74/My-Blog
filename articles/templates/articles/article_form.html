@@ -1,0 +1,24 @@
+{%extends 'base.html'%} {% block content %} 
+{% if request.user.is_authenticated%}
+<div class="container">
+  <div class="row align-items-center h-full">
+    {% if 'create' in request.path %}
+    <h1 class="display-5 mb-1">Create new article</h1>
+    {% else %}
+    <h1 class="display-5 mb-1">Update article</h1>
+    {%endif%}
+    <div class="col-md-6 bg-light p-3 shadow-sm mb-1">
+      <form action="" , method="Post">
+        {%csrf_token%} {{form}}
+        <a href="{% url 'articles:category-create'%}" class="link-primary d-block mb-3">Add new category</a>
+
+
+        <input type="submit" class="btn btn-primary" />
+        <input type="reset" class="btn btn-secondary" />
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{%endif%} {% endblock content %}

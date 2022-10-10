@@ -1,0 +1,163 @@
+{%extends 'base.html'%} 
+
+{% block title %}
+{{article.title|title}}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row my-5">
+    <div class="col-sm-8">
+      <article class="article px-2">
+        <h1 class="mb-2">{{article.title|title}}</h1>
+        <div class="categories mb-4">
+          {% for category in article.category.all %}
+
+          <a
+            class=" badge bg-secondary
+                    link-light
+                    text-capitalize
+                    text-small
+                    fw-semibold"
+            href="{{category.get_absolute_url}}"
+            >{{category}}</a>
+
+
+          {% endfor %}
+        </div>
+        <div
+          class="article-detail d-flex g-3 align-items-center mb-2 flex-wrap"
+        >
+          <img
+            src="{{article.user.profile.img.url}}"
+            alt=""
+            class="img-fluid rounded-circle profile-preview me-2"
+          />
+          <span class="text-capitalize small me-2 my-0">
+            <a
+              class="link-primary"
+              href="{% url 'accounts:profile' article.user.profile.pk %}"
+              >{{article.user}}</a
+            >
+          </span>
+          <span class="text-muted small my-0">{{article.created}}</span>
+
+          {% if request.user == article.user or request.user.is_staff %}
+
+          <a
+            class="link-primary mx-2"
+            href="{% url 'articles:article-update' article.slug %}"
+            ><i class="fa-solid fa-pencil"></i
+          ></a>
+          <a
+            class="link-danger btn-sm"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#deletaArticleModal"
+            ><i class="fa-solid fa-trash-can"></i
+          ></a>
+          <form
+            action="{% url 'articles:article-delete' article.slug %}"
+            method="post"
+          >
+            {% csrf_token %} 
+            {% include 'articles/delete_modal.html' with id='deletaArticleModal' object='article' %}
+          </form>
+
+          {%endif%}
+        </div>
+
+        <div class="article-body mt-4 mb-1">
+          <p class="lead">{{article.content}}</p>
+        </div>
+
+        <form method="post">
+          {%csrf_token%}
+          <button class="btn btn-primary btn-sm" name="like" type="submit">
+            <i class="fa-regular fa-thumbs-up small">
+              <span class="ms-1"> {{article.likes.count}}</span></i
+            >
+          </button>
+        </form>
+      </article>
+
+
+      <!-- Comments section -->
+
+      
+      <section class="comments my-3 bg-light pt-2 pb-5 px-4 rounded">
+        {% if article.comments.exists %}
+        <h5>Comments</h5>
+        {% for comment in article.comments.all %}
+        <div class="comment-body py-3">
+          <div class="d-flex align-items-center">
+            <img
+              src="{{comment.user.profile.img.url}}"
+              alt=""
+              class="img-fluid rounded-circle profile-preview me-2"
+            />
+            <span class="text-muted text-capitalize small me-2">
+              <a
+                class="link-primary"
+                href="{% url 'accounts:profile' comment.user.profile.pk %}"
+                >{{comment.user}}</a
+              >
+            </span>
+            <span class="text-muted small me-2"
+              >{{comment.created_at|timesince}}</span
+            >
+            {% if request.user == comment.user or request.user.is_staff %}
+              <a 
+              class="link-primary small mx-2"
+              href="{% url 'articles:comment-update' comment.id %}"
+              
+            ><i class="fa-solid fa-pencil"></i
+          ></a>
+          
+            <a
+              class="link-danger btn-sm"
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#deletCommentModal"
+              ><i class="fa-solid fa-trash-can"></i
+            ></a>
+            <form
+              action="{% url 'articles:comment-delete' comment.id %}"
+              method="post"
+            >
+              {% csrf_token %} 
+              {% include 'articles/delete_modal.html' with id='deletCommentModal' object='comment' %}
+            </form>
+
+          
+           
+            {%endif%}
+          </div>
+          <p class="mt-2 p-2 rounded rounded-2 comment-content">
+            {{comment.content}}
+          </p>
+        </div>
+
+        {%endfor%}
+         {%endif%}
+          {% if request.user.is_authenticated %}
+        <form method="post">
+          {%csrf_token%} {{comment_form}}
+          <button
+            class="btn btn-primary btn-sm text-end"
+            name="comment"
+            type="submit"
+          >
+            Add
+          </button>
+          {% endif %}
+        </form>
+      </section>
+      <a class="link-primary" href="{% url 'articles:article-list' %}">
+        <i class="fa-regular fa-circle-left"></i> Back to articles</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+<div
+  class=" my-3
+          p-3
+          bg-white 
+          shadow-sm
+          col-sm-8
+          rounded rounded-1
+          article-preview">
+
+  <a
+    class="h3 link-dark fs-3 text-capitalize"
+    href="{{article.get_absolute_url}}">
+    {{article.title}}
+  </a>
+
+  <div class="article-detail
+               d-flex
+               mt-2
+               align-items-center">
+      <img
+        src="{{article.user.profile.img.url}}"
+        alt=""
+        class="img-fluid rounded-circle profile-preview me-2"/>
+
+      <span class="text-capitalize small me-2 my-0">
+          <a
+            class="link-primary"
+            href="{% url 'accounts:profile' article.user.profile.pk %}"
+            >{{article.user}}
+          </a>
+      </span>  
+      <span class="text-muted small my-0">{{article.created|timesince}}</span>
+
+  </div>
+
+  <p class="mt-4 lead">{{article.content|truncatechars:50}}..</p>
+</div>

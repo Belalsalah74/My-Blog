@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models import Q
 from django.db import models
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 class Category(models.Model):
@@ -14,6 +16,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("articles:category-detail", kwargs={'pk': self.id})
 
 
 class ArticleQuerySet(models.QuerySet):
@@ -38,8 +43,6 @@ class Article(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    published = models.DateField(
-        auto_now=False, auto_now_add=False, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(null=True, blank=True,)
     category = models.ManyToManyField(Category, blank=True,
@@ -49,29 +52,30 @@ class Article(models.Model):
     class Meta:
         ordering = ['-updated', '-created']
 
+    def __str__(self):
+        return self.title
+        
     def is_liked_by_user(self,request):
         user = request.user
         if self.likes.filter(id=user.id):
             return True
         return False
 
-    def like_or_unlike(self,request):
+
+    @method_decorator(login_required)
+    def like_or_unlike(self, request):
         user = request.user
         if self.is_liked_by_user(request):
             self.likes.remove(user.id)
         else:
             self.likes.add(user.id)
 
-    def __str__(self):
-        return self.title
-
-
     def get_absolute_url(self):
         return reverse("articles:article-detail", kwargs={'slug': self.slug})
         
  
 
-class Comments(models.Model):
+class Comment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     article = models.ForeignKey(Article,related_name='comments',on_delete=models.CASCADE)
     content = models.TextField(validators=[MinLengthValidator(1)])
@@ -87,6 +91,5 @@ class Comments(models.Model):
     
 
     class Meta:
-        ordering = ['created_at','article']
-        verbose_name = 'comments'
-        verbose_name_plural = 'comments'
+        ordering = ['-created_at','article']
+        verbose_name = 'comment'

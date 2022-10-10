@@ -1,15 +1,25 @@
-{%extends 'base.html'%}
-{% block title %}Search{% endblock title %}
+{%extends 'base.html'%} 
+
+{% block title %}
+Search results for {{query}}
+{% endblock title %}
 
 {% block content %}
-        
-        {%for article in qs%}
-        
-        <a href="{{article.get_absolute_url}}">
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="fs-3 my-3">Search results for {{query}}</h1>
+      {% for article in page_obj %}
+          {% include 'article_preview.html' %}
+      {% empty %}
+      <p>Sorry no results try searching for another word</p>
 
-            <h4>{{article}}</h1></a>
-        {%empty%}
-        <p>No results please enter a valid search</p>
-        {%endfor%}
-        
+      {% endfor %}
+    </div>
+    <!-- Pagination -->
+              {% include 'articles/pagination.html' %}
+    
+  </div>
+</div>
+
 {% endblock content %}

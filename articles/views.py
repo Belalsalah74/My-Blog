@@ -2,20 +2,46 @@ from django.core.paginator import Paginator
 from django.contrib.messages import add_message, SUCCESS
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Article, Comments
+from django.http import HttpResponseForbidden
+from .models import Article, Category, Comment
 from .forms import ArticleForm, CategoryForm, CommentForm
 
-def list_try(request):
+
+def category_list(request):
+    qs = Category.objects.all()
+    context = {'qs': qs}
+    return render(request, 'articles/category_list.html', context)
+
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    qs = category.article.all()
+    context = {'qs': qs, 'category': category}
+
+    return render(request, 'articles/category_detail.html', context)
+
+
+def category_create(request):
+    form = CategoryForm(request.POST or None)
+    context = {'form': form}
+    if form.is_valid():
+        form.save()
+        add_message(request, SUCCESS, 'Category created successfully')
+        return redirect('articles:article-create')
+    return render(request, 'articles/category_form.html', context)
+
+
+def article_list(request):
     article_list = Article.objects.all()
-    paginator = Paginator(article_list, 10, allow_empty_first_page=True)
+    paginator = Paginator(article_list, 5, allow_empty_first_page=True)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'articles': article_list,
-               'title': 'Articles', 'page_obj': page_obj}
-    return render(request, 'articles/list_view.html', context)
+               'page_obj': page_obj}
+    return render(request, 'articles/article_list.html', context)
+
 
 # Add Comment
-@login_required
 def add_comment(request, article, user):
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -25,48 +51,64 @@ def add_comment(request, article, user):
         comment.save()
 
 # Delete Comment
+
+
 def comment_delete(request, id):
-    comment = Comments.objects.get(id=id)
+    comment = get_object_or_404(Comment, id=id)
     article = comment.article
-    context = {'title': 'comment delete',
-               'article': article, 'object': comment}
     if request.POST:
         comment.delete()
         add_message(request, SUCCESS, 'Comment deleted successfully')
         return redirect(article.get_absolute_url())
-    return render(request, 'articles\delete_confirm.html', context)
 
+# Udpdate Comment
+
+
+def comment_update(request, id):
+    comment = get_object_or_404(Comment, id=id)
+    if request.user == comment.user or request.user.is_staff:
+        article = comment.article
+        form = CommentForm(request.POST or None, instance=comment)
+        context = {'comment': comment,
+                   'article': article, 'form': form}
+        if form.is_valid():
+            form.save()
+            add_message(request, SUCCESS, 'Comment updated successfully')
+            return redirect(article.get_absolute_url())
+        return render(request, 'articles/comment_update.html', context)
+    else:
+        return HttpResponseForbidden(request)
 
 
 # Article detail view
-def detail_try(request, slug):
+def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
     comment_form = CommentForm(request.POST or None)
-    comments = Comments.objects.filter(article=article)
+    comments = Comment.objects.filter(article=article)
 
     context = {'article': article, 'title': article.title,
-               'comment_form': comment_form, 'comments': comments, 'like_button':'like'}
+               'comment_form': comment_form, 'comments': comments, 'like_button': 'like'}
 
     if article.is_liked_by_user(request):
         context['like_button'] = 'unlike'
-    print(request.POST)
+
     if comment_form.is_valid() and 'comment' in request.POST:
         add_comment(request, article, request.user)
-        
-    elif 'like' in request.POST:
+        return redirect(article)
+
+    if 'like' in request.POST:
         article.like_or_unlike(request)
+        return redirect(article)
 
-        return redirect(article.get_absolute_url())
-
-    return render(request, 'articles/detail_view.html', context)
+    return render(request, 'articles/article_detail.html', context)
 
 # Article create view
 @login_required
-def create_try(request):
+def article_create(request):
 
     form = ArticleForm(request.POST or None)
-    c_form = CategoryForm(request.POST or None)
-    context = {'form': form, 'title': 'Create article', "c_form": c_form}
+
+    context = {'form': form}
 
     if form.is_valid():
         article = form.save(commit=False)
@@ -76,57 +118,54 @@ def create_try(request):
             category = request.POST['category']
             article.category.add(category)
 
-        
-        if c_form.is_valid():
-            cat = c_form.save(commit=False)
-            cat.save()
-            article.category.add(cat)
-
-        add_message(request, SUCCESS, 'Article created')
+        add_message(request, SUCCESS, 'Article created successfully')
         return redirect(article.get_absolute_url())
 
-    return (render(request, 'articles/create_update.html', context))
+    return (render(request, 'articles/article_form.html', context))
+
+# Article create view
 
 
-def update_try(request, slug):
+def article_update(request, slug):
 
     article = Article.objects.get(slug=slug)
-    form = ArticleForm(request.POST or None, instance=article)
-    c_form = CategoryForm(request.POST or None)
+    if request.user == article.user or request.user.is_staff:
+        form = ArticleForm(request.POST or None, instance=article)
+        c_form = CategoryForm(request.POST or None)
 
-    context = {'article': article, "c_form": c_form,
-               'form': form, 'title': f'update {article.title}'}
-    if form.is_valid():
-        form.save()
-        if c_form.is_valid():
-            cat = c_form.save(commit=False)
-            cat.save()
-            article.category.add(cat)
-        return redirect(article.get_absolute_url())
+        context = {'article': article, "c_form": c_form,
+                   'form': form, }
+        if form.is_valid():
+            form.save()
+            if c_form.is_valid():
+                cat = c_form.save(commit=False)
+                cat.save()
+                article.category.add(cat)
+            return redirect(article.get_absolute_url())
 
-    return render(request, 'articles/create_update.html', context)
+        return render(request, 'articles/article_form.html', context)
+    else:
+        return HttpResponseForbidden(request)
+
+# Article delete view
 
 
-@login_required
-def delete_try(request, slug):
+def article_delete(request, slug):
     article = Article.objects.get(slug=slug)
-    context = {'title': 'article delete',
-               'article': article, 'object': article}
-
     if request.POST:
-        Article.objects.get(slug=slug).delete()
+        article.delete()
         add_message(request, SUCCESS, 'Article deleted successfully')
         return redirect('articles:article-list')
 
-    return render(request, 'articles\delete_confirm.html', context)
-
 
 # Article search
-def qs_search(request):
-    query = request.GET.get('q')
+def article_search(request):
+    query = request.GET.get('query')
     queryset = Article.objects.search(query)
+    paginator = Paginator(queryset, 5, allow_empty_first_page=True)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'articles': queryset,
+               'title': 'Search result', 'query': query, 'page_obj': page_obj}
 
-    ctx = {'articles': queryset, 'title': 'Search'}
-
-    return render(request, 'articles/search.html', ctx)
-
+    return render(request, 'articles/search.html', context)

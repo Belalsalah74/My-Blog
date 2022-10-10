@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Article, Category, Comments
+from .models import Article, Category, Comment
 
 
 
-@admin.register(Comments)
+@admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ['user','article','content']
     fields = ['content','user','article']
