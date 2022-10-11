@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
+from accounts.models import Profile
+
 from .forms import ProfileUpdate_CreateForm, UserUpdateForm, UserSignUpForm, PassChangeForm, UserLoginForm
 
 
@@ -45,8 +47,8 @@ def user_logout(request):
         return redirect('accounts:login')
 
 def profile_view(request, id):
-    user = get_object_or_404(User, id=id)
-    context = {'profile': user.profile}
+    profile = get_object_or_404(Profile, id=id)
+    context = {'profile':profile}
     return render(request, 'accounts/profile.html', context)
 
 
