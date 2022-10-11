@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG')
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','myblog-production-c4f3.up.railway.app']
+ALLOWED_HOSTS = ['myblog.up.railway.app','localhost','https://myblog.up.railway.app']
 
 LOGIN_URL = '/login/'
 # Application definition
