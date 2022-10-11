@@ -14,8 +14,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['myblog.up.railway.app','localhost','https://myblog.up.railway.app']
-CSRF_TRUSTED_ORIGINS  = ['myblog.up.railway.app','localhost','https://myblog.up.railway.app']
+ALLOWED_HOSTS = ['myblog.up.railway.app','localhost','127.0.0.1']
+CSRF_TRUSTED_ORIGINS  = ['http://localhost','https://127.0.0.1','https://myblog.up.railway.app']
 LOGIN_URL = '/login/'
 # Application definition
 
