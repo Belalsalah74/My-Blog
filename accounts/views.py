@@ -53,14 +53,13 @@ def profile_view(request, id):
 
 
 def udpate_profile(request, id):
-    user = get_object_or_404(User, id=id)
-    if request.user == user or request.user.is_staff:    
-        profile = user.profile
-        user_form = UserUpdateForm(request.POST or None, instance=user)
+    profile = get_object_or_404(Profile, id=id)
+    if request.user == profile.user or request.user.is_staff:    
+        user_form = UserUpdateForm(request.POST or None, instance=profile.user)
         profile_form = ProfileUpdate_CreateForm(
             request.POST or None, request.FILES or None, instance=profile)
         context = {'user_form': user_form, 'profile_form': profile_form,
-                'profile': user.profile, 'user': user}
+                'profile': profile, 'user': profile.user}
         if profile_form.is_valid():
             profile_form.save()
             user_form.save()

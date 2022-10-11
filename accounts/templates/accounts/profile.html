@@ -20,8 +20,8 @@
         <img class="rounded-circle img-fluid d-block mb-3" src="{{profile.img.url}}"/>
 
         {% if request.user == profile.user %}
-      <a class="btn btn-primary col-6 mb-3" href="{% url 'accounts:profile_update' user.id %}"><i class="fa-solid fa-lock"></i> Update profile</a>
-      <a class="btn btn-info col-6 mb-3" href="{% url 'accounts:password_change' user.id %}"><i class="fa-solid fa-pen"></i> Change Password</a>
+      <a class="btn btn-primary col-6 mb-3" href="{% url 'accounts:profile_update' user.profile.id %}"><i class="fa-solid fa-lock"></i> Update profile</a>
+      <a class="btn btn-info col-6 mb-3" href="{% url 'accounts:password_change' user.profile.id %}"><i class="fa-solid fa-pen"></i> Change Password</a>
       {%endif%}
     </div>
   </div>
