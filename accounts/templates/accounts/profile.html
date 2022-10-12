@@ -2,7 +2,11 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-8 mt-5 order-2 order-md-1">
-        {% if request.user == profile.user %}
+
+      {% if request.user == profile.user %}
+      <h2 class="h4 mb-3">
+        Welcome <span class="text-primary">{{profile.user.username}}</span>
+      </h2>
 
             <h1>Your articles</h1>
         {%else%}
@@ -11,14 +15,28 @@
 
            {% for article in profile.get_articles %}
                 {% include 'article_preview.html'%} 
+
+            {% empty %}
+                {% if request.user == profile.user %}
+
+            <p class="fs-5 mt-5">You have no articles yet... <a class="link-primary  " href="{% url 'articles:article-create' %}">start writing!</a></p>
+
+            {%else%}
+            <p class="fs-5 mt-5 ">{{profile.user|capfirst}} has no articles yet</p>  
+            {%endif%}
         {%endfor%} 
 
 
 
     </div>
     <div class="col-sm-4 mt-5 d-flex  flex-column  align-items-center order-md-2 order-1">
-        <img class="rounded-circle img-fluid d-block mb-3 profile-img" src="{{profile.img.url}}"/>
-
+        <img class="rounded-circle img-fluid d-block mb-1 profile-img" src="{{profile.img.url}}"/>
+      <div class="bio my-3">
+        <p class="text-primary mb-1 fs-3 text-center">{{profile.user|capfirst}}</p>
+       {% if profile.bio %}
+             <p class="text-muted fs-6 text-center">{{profile.bio}}</p>
+       {% endif %}
+      </div>
         {% if request.user == profile.user %}
       <a class="btn btn-primary col-6 mb-3" href="{% url 'accounts:profile_update' user.profile.id %}"><i class="fa-solid fa-pen"></i> Update profile</a>
       <a class="btn btn-info col-6 mb-3" href="{% url 'accounts:password_change' user.profile.id %}"><i class="fa-solid fa-lock"></i> Change Password</a>

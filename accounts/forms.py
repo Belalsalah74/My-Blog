@@ -72,12 +72,15 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdate_CreateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['img']
+        fields = ['img','bio']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['img'].widget.attrs.update(
             {'class': 'form-control mb-3 form-control-lg','placeholder':'choose profile pic'})
+        self.fields['bio'].widget.attrs.update(
+            {'class': 'form-control mb-3 form-control-lg','placeholder':'Bio..'})
         self.fields['img'].label = ''
+        self.fields['bio'].label = ''
 
 

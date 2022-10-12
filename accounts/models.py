@@ -10,6 +10,7 @@ from django.db.models.signals import  post_save
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
+    bio = models.CharField(max_length=999,blank=True,null=True)
     img = models.ImageField(upload_to='staticfiles/media/profile_pics',default='staticfiles/media/anon.jpg',blank=True,null=True)
 
     def get_articles(self):

@@ -2,19 +2,9 @@
 <div class="container">
   <div class="row my-3">
     <div class="col-sm-9">
-      {% if user.is_authenticated %}
 
-      <h2 class="h4 mb-3">
-        Welcome <span class="text-primary">{{user.username}}</span>
-      </h2>
 
-      {%else%}
-
-      <h2 class="h4">Welcome</h2>
-
-      {%endif%}
-
-      <h1 class="display-4">Latest articles</h1>
+      <h1 class="display-4 mt-3">Latest articles</h1>
       
       {%for article in articles %}
 
