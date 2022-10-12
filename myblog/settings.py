@@ -13,7 +13,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+# DEBUG = False
+DEBUG = os.environ.get('DEBUG') == '1'
 
 ALLOWED_HOSTS = ['myblog.up.railway.app','localhost','127.0.0.1']
 CSRF_TRUSTED_ORIGINS  = ['http://localhost','https://127.0.0.1','https://myblog.up.railway.app']
@@ -113,11 +114,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
-
-# STATICFILES_DIRS = [BASE_DIR / 'static/']
-# STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -127,7 +123,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_LOCATION = 'staticfiles'

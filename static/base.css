@@ -1,0 +1,92 @@
+:root {
+    --clr-primary: #4267B2;
+}
+
+body {
+    background-color: #f0f2f5;
+}
+
+
+/* General */
+
+
+.h-full {
+    min-height: calc(100vh - 62px);
+}
+
+.text-primary:not(:hover),
+.link-primary:not(:hover) {
+    color: var(--clr-primary) !important;
+}
+
+.text-small {
+    font-size: 11px;
+}
+
+.link-dark:focus,
+.link-dark:hover {
+    color: #4f4c55 !important;
+}
+
+.btn-primary:not(:hover),
+.bg-primary:not(:hover) {
+    background-color: var(--clr-primary) !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+.profile-preview {
+    width: 30px;
+    height: 30px;
+}
+
+/* Navbar */
+nav.navbar {
+    background-color: var(--clr-primary)
+}
+
+
+
+.navbar-search {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    ;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.nav-search-input {
+    background-color: transparent;
+    flex: 1;
+    border: none;
+}
+
+.nav-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.navbar-search .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+}
+
+/* comment */
+
+
+.comment-content {
+    width: fit-content;
+    margin-left: 2rem;
+    background-color: #fff;
+}
+
+/* Profile */
+.profile-img {
+    width: 200px;
+    height: 200px;
+}
+
+

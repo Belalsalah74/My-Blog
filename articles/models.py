@@ -91,5 +91,5 @@ class Comment(models.Model):
     
 
     class Meta:
-        ordering = ['-created_at','article']
+        ordering = ['created_at','article']
         verbose_name = 'comment'

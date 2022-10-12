@@ -69,15 +69,15 @@ def udpate_profile(request, id):
     return HttpResponseForbidden()
 
 def PassChange(request, id):
-    user = get_object_or_404(User, id=id)
-    if request.user == user or request.user.is_staff:
-        form = PassChangeForm(user, data=request.POST or None)
-        context = {'user': user, 'form': form}
+    profile = get_object_or_404(Profile, id=id)
+    if request.user == profile.user or request.user.is_staff:
+        form = PassChangeForm(profile.user, data=request.POST or None)
+        context = {'user': profile.user, 'form': form}
 
         if form.is_valid():
             form.save()
             add_message(request, SUCCESS, 'Password updated succesfully')
-            login(request, user)
+            login(request, profile.user)
             return redirect('home')
         return render(request, 'accounts/password_change.html', context)
     return HttpResponseForbidden()
