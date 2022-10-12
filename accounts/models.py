@@ -1,9 +1,5 @@
-from PIL import Image
-from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import  post_save
-
 
 
 
@@ -29,12 +25,6 @@ class Profile(models.Model):
 #        output_size = (200,200)
 #        img.thumbnail(output_size)
 #        img.save(instance.img.path)
-
-# @receiver(post_save,sender=User)
-# def create_profile(sender,instance,created,*args, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#         instance.profile.save()
 
 
 
